@@ -49,8 +49,8 @@ async fn get_movie(
 }
 
 async fn add_movie(State(state): State<AppState>, Json(movie): Json<Movie>) -> StatusCode {
-    let mut locked_self = state.db.write().await;
-    if locked_self.insert(movie.id.clone(), movie).is_some() {
+    let mut locked_db = state.db.write().await;
+    if locked_db.insert(movie.id.clone(), movie).is_some() {
         StatusCode::ACCEPTED
     } else {
         StatusCode::CREATED
